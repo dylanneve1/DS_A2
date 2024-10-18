@@ -6,7 +6,7 @@
 
 int main() {
     // Set the array size
-    int size = 10;
+    int size = MAX_ARRAY_SIZE;
     int array[MAX_ARRAY_SIZE];
 
     // Seed the random number generator

@@ -1,7 +1,7 @@
 #ifndef T1_H_
 #define T1_H_
 
-#define MAX_ARRAY_SIZE 1024
+#define MAX_ARRAY_SIZE 14
 
 void fill_ascending(int *array, int size);
 void fill_descending(int *array, int size);

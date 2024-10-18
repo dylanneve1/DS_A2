@@ -14,7 +14,7 @@ void testSortingAlgorithms(int *array, int size) {
 }
 
 int main() {
-    int size = 10;
+    int size = MAX_ARRAY_SIZE;
     int array[MAX_ARRAY_SIZE];
     
     // Seed the random number generator
