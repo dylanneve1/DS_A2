@@ -12,7 +12,7 @@ CFLAGS = -Wall -Wextra -O2
 ######################
 
 # Both targets with one command
-all: t1_test t2_test t3_test
+all: t1_test t2_test t3_test t4_test
 
 # Target for t1_test
 t1_test: t1_test.o t1.o
@@ -27,7 +27,12 @@ t2_test: t2_test.o t2.o t1.o
 # Target for t3_test (extends on t2)
 t3_test: t3_test.o t2.o t1.o
 	@echo "Linking t3_test..."
-	$(CC) $(CFLAGS) -o t3_test t3_test.o t3.o t1.o
+	$(CC) $(CFLAGS) -o t3_test t3_test.o t2.o t1.o
+
+# Target for t4_test (extends on t2)
+t4_test: t4_test.o t2.o t1.o
+	@echo "Linking t4_test..."
+	$(CC) $(CFLAGS) -o t4_test t4_test.o t2.o t1.o
 
 ######################
 #    BUILD RULES     #
@@ -44,9 +49,14 @@ t2_test.o: t2_test.c t2.h t1.h
 	$(CC) $(CFLAGS) -c t2_test.c
 
 # Compile t3_test object
-t2_test.o: t3_test.c t2.h t1.h
+t3_test.o: t3_test.c t2.h t1.h
 	@echo "Compiling t3_test.c..."
 	$(CC) $(CFLAGS) -c t3_test.c
+
+# Compile t4_test object
+t4_test.o: t4_test.c t2.h t1.h
+	@echo "Compiling t4_test.c..."
+	$(CC) $(CFLAGS) -c t4_test.c
 
 # Compile t1 object
 t1.o: t1.c t1.h
@@ -65,7 +75,7 @@ t2.o: t2.c t2.h
 # Clean up all object files and executables
 clean:
 	@echo "Cleaning up..."
-	rm -f *.o t1_test t2_test t3_test
+	rm -f *.o t1_test t2_test t3_test t4_test
 
 ######################
 #    PHONY TARGETS   #

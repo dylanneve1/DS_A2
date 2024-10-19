@@ -55,8 +55,8 @@ void testSortingAlgorithms(int *originalArray, int size, const char *testCaseNam
 }
 
 int main() {
-    int size = MAX_ARRAY_SIZE;
-    int array[MAX_ARRAY_SIZE];
+    int size = 10;
+    int array[10];
 
     // Seed the random number generator
     srand(time(NULL));
