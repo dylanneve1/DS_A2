@@ -1,4 +1,2 @@
 *.o
-t1_test
-t2_test
-t3_test
+*_test
