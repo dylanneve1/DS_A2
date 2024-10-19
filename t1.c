@@ -33,7 +33,9 @@ void fill_with_duplicates(int *array, int size) {
 
 // Fills the array with unique numbers between 0 and size-1 in a shuffled order. Duplicates are not allowed.
 void fill_without_duplicates(int *array, int size) {
-    int nodupli[MAX_ARRAY_SIZE] = {0};
+    // Dynamically allocate the nodupli array
+    int *nodupli = (int *)calloc(size, sizeof(int));
+
     for (int i = 0; i < size; i++) {
         int value = rand() % size;
         while (nodupli[value] == 1) {
@@ -42,6 +44,9 @@ void fill_without_duplicates(int *array, int size) {
         array[i] = value;
         nodupli[value] = 1;
     }
+
+    // Free the allocated memory
+    free(nodupli);
 } /* Time Complexity: O(n^2) */
 
 // Runs through and prints values in array

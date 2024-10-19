@@ -7,11 +7,9 @@ int is_sorted(int* array, int size){
     int i=0;
 	for( i=0; i<size-1; i++ ) {
 		if( array[i] > array[i+1] ) { 
-            printf("unsorted\n");
             return 0; 
         }
 	}
-     printf("sorted\n");
 	return 1;
 }
 
