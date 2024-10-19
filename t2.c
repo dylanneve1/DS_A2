@@ -27,22 +27,50 @@ void selectionSort(int array[], int size) {
 } /* Time Complexity: O(n^2) */
 
 void insertionSort(int array[], int size) {
-    for (int i = 0; i < size; i++) {
-      int key = array[i];
-      int j = i - 1;
+    for (int i = 1; i < size; i++) {
+        int key = array[i];
+        int j = i - 1;
 
-      if (array[j] <= key) {
-        continue;
-      }
+        if (array[j] <= key) {
+          continue;
+        }
 
-      while (j >= 0 && array[j] > key) {
-        array[j + 1] = array[j];
-        j--;
-      }
+        while (j >= 0 && array[j] > key) {
+          array[j + 1] = array[j];
+          j--;
+        }
 
-      array[j+1] = key;
+        array[j+1] = key;
+    }
+}
+
+int quickSortPartition(int array[], int low, int high) {
+    int p = array[low];
+    int i = low;
+    int j = high;
+    while (i < j) {
+        while (array[i] <= p && i <= high - 1) {
+            i++;
+        }
+        while (array[j] > p && j >= low + 1) {
+            j--;
+        }
+        if (i < j) {
+            swap(&array[i], &array[j]);
+        }
+    }
+    swap(&array[low], &array[j]);
+    return j;
+}
+
+void quickSortHelper(int array[], int low, int high) {
+    if (low < high) {
+        int pi = quickSortPartition(array, low, high);
+        quickSortHelper(array, low, pi - 1);
+        quickSortHelper(array, pi + 1, high);
+    }
 }
 
 void quickSort(int array[], int size) {
-    //TODO
+    quickSortHelper(array, 0, size - 1);
 }
