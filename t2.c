@@ -12,6 +12,13 @@ void swap(int *a, int *b) {
     number_swaps++; // Increment the swap count each time this function is called
 }
 
+void swapReviews(GameReview *a, GameReview *b) {
+    GameReview temp = *a;
+    *a = *b;
+    *b = temp;
+    number_swaps++; // Increment the swap count each time this function is called
+}
+
 // Selection Sort Algorithm
 void selectionSort(int array[], int size) { 
     for (int i = 0; i < size; i++) {
@@ -52,20 +59,20 @@ void insertionSort(int array[], int size) {
 
 // Quick Sort Partition function
 int quickSortPartition(int array[], int low, int high) {
-    int p = array[low];  // Choose the pivot as the first element
+    int p = array[low];
     int i = low;
     int j = high;
     while (i < j) {
-        number_comparisons++; // Increment comparisons count for array[i] <= p
-        while (array[i] <= p && i <= high - 1) {
+        number_comparisons++;
+        while (array[i] <= p && i < high) {
             i++;
-            number_comparisons++; // Increment comparisons for each loop iteration
+            number_comparisons++;
         }
 
-        number_comparisons++; // Increment comparisons count for array[j] > p
-        while (array[j] >= p && j >= low + 1) {
+        number_comparisons++;
+        while (array[j] >= p && j > low) {
             j--;
-            number_comparisons++; // Increment comparisons for each loop iteration
+            number_comparisons++;
         }
 
         if (i < j) {
@@ -73,7 +80,7 @@ int quickSortPartition(int array[], int low, int high) {
         }
     }
     swap(&array[low], &array[j]);
-    return j;  // Return the partition index
+    return j;
 }
 
 // Quick Sort Recursive Helper
@@ -88,4 +95,48 @@ void quickSortHelper(int array[], int low, int high) {
 // Quick Sort function
 void quickSort(int array[], int size) {
     quickSortHelper(array, 0, size - 1);
+}
+
+// Partition Function for Quick Sort on GameReview Array
+int quickSortReviewsPartition(GameReview array[], int low, int high) {
+    int pivot = array[low].score; 
+    int i = low;
+    int j = high;
+
+    while (i < j) {
+        number_comparisons++;
+        while (array[i].score >= pivot && i < high) {
+            i++;
+            number_comparisons++;
+        }
+
+        number_comparisons++;
+        while (array[j].score <= pivot && j > low) {
+            j--;
+            number_comparisons++;
+        }
+
+        if (i < j) {
+            swapReviews(&array[i], &array[j]);
+        }
+    }
+    swapReviews(&array[low], &array[j]);
+    return j;
+}
+
+// Recursive Quick Sort Helper for GameReview Array
+void quickSortReviewsHelper(GameReview array[], int low, int high) {
+    if (low < high) {
+        int pi = quickSortReviewsPartition(array, low, high);
+        quickSortReviewsHelper(array, low, pi - 1);
+        quickSortReviewsHelper(array, pi + 1, high);
+    }
+}
+
+// Adapter Function to Sort GameReview Array Based on Score
+void gameReviewAdapter(GameReview array[], int num_reviews) {
+    if (array == NULL || num_reviews <= 1) {
+        return;
+    }
+    quickSortReviewsHelper(array, 0, num_reviews - 1);
 }

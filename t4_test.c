@@ -1,22 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "t1.h"
+#include "t2.h"
 
 #define MAX_GAMES 24000
-#define MAX_TITLE_LENGTH 256
-#define TOP_N 10
-
-typedef struct {
-    char title[MAX_TITLE_LENGTH];
-    int score;
-    int year;
-} GameReview;
-
-// Comparison function (sorts by score descending)
-int compare_reviews(const void *a, const void *b) {
-    int ret = ((GameReview *)b)->score - ((GameReview *)a)->score;
-    return ret;
-}
+#define TOP_N 100
 
 // Simple function to strip leading/trailing quotes and remove trailing newline character
 void remove_quotes(char *str) {
@@ -34,6 +23,17 @@ void remove_quotes(char *str) {
     }
 }
 
+// Function to print the top N game reviews
+void printTopNGames(GameReview *reviews, int size, int top_n) {
+    printf("Top %d Games:\n", top_n);
+    printf("-------------------------------\n");
+    printf("%-5s %-40s %-10s %-10s\n", "Rank", "Title", "Score", "Year");
+    printf("--------------------------------------------------------\n");
+    for (int i = 0; i < top_n && i < size; i++) {
+        printf("%-5d %-40s %-10d %-10d\n", i + 1, reviews[i].title, reviews[i].score, reviews[i].year);
+    }
+    printf("\n");
+}
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
@@ -56,6 +56,9 @@ int main(int argc, char *argv[]) {
 
     int num_reviews = 0;
     char line[1024];
+
+    // Remove header
+    fgets(line, sizeof(line), file);
 
     while (fgets(line, sizeof(line), file) && num_reviews < MAX_GAMES) {
         char *start = line;
@@ -93,13 +96,8 @@ int main(int argc, char *argv[]) {
     }
     fclose(file);
 
-
-    qsort(reviews, num_reviews, sizeof(GameReview), compare_reviews);
-
-    printf("Top %d Games Overall (All Years):\n", TOP_N);
-    for (int i = 0; i < num_reviews && i < TOP_N; ++i) {
-        printf("%d. %s (%d, Score: %d)\n", i + 1, reviews[i].title, reviews[i].year, reviews[i].score);
-    }
+    gameReviewAdapter(reviews, num_reviews);
+    printTopNGames(reviews, num_reviews, TOP_N);
 
     free(reviews);
     return 0;
