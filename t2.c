@@ -63,7 +63,9 @@ void insertionSort(int array[], int size) {
 
 // Quick Sort Partition function
 int quickSortPartition(int array[], int low, int high) {
-    int pivot = array[low];
+    // Random number between low and high
+    int random_index = low + rand() % (high - low);
+    int pivot = array[random_index];
     int i = low;
     int j = high;
     while (i < j) {
@@ -107,7 +109,9 @@ void quickSort(int array[], int size) {
 
 // Partition Function for Quick Sort on GameReview Array
 int quickSortReviewsPartition(GameReview array[], int low, int high) {
-    int pivot = array[low].score; 
+    // Random number between low and high
+    int random_index = low + rand() % (high - low);
+    int pivot = array[random_index].score; 
     int i = low;
     int j = high;
 
