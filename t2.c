@@ -69,18 +69,22 @@ int quickSortPartition(int array[], int low, int high) {
     int i = low;
     int j = high;
     while (i < j) {
-        number_comparisons++;
-        while (array[i] <= p && i < high) {
-            i++;
-            number_comparisons++; // Increment comparison count
+        while (i < high) {
+            number_comparisons++;
+            if (array[i] <= p) {
+                i++;
+            } else {
+                break;
+            }
         }
-
-        while (array[j] >= p && j > low) {
-            j--;
-            number_comparisons++; // Increment comparison count
+        while (j > low) {
+            number_comparisons++; 
+            if (array[j] >= p) {
+                j--;
+            } else {
+                break;
+            }
         }
-
-        number_comparisons++; // Increment comparison count
         if (i < j) {
             swap(&array[i], &array[j]);
         }
