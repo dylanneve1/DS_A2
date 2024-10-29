@@ -23,17 +23,19 @@ void swapReviews(GameReview *a, GameReview *b) {
 
 // Selection Sort Algorithm
 void selectionSort(int array[], int size) { 
-    for (int i = 0; i < size; i++) {
+    // Loop through every element in array
+    for (int i = 0; i < size - 1; i++) {
+        // Set assumed minimum to current
         int minimum = i;
+        // For every element after that check if it's smaller
         for (int j = i + 1; j < size; j++) {
             number_comparisons++; // Increment comparisons count
+            // If it is smaller then set minimum to j
             if (array[j] < array[minimum]) {
                 minimum = j;
             }
         }
-        if (minimum != i) {
-            swap(&array[minimum], &array[i]);
-        }
+        swap(&array[minimum], &array[i]);
     }
 } /* Time Complexity: O(n^2) */
 
