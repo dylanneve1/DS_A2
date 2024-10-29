@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "t1.h"
 
 // Fills the array with ascending, consecutive numbers, starting from 0.
@@ -18,6 +19,7 @@ void fill_descending(int *array, int size) {
 
 // Fills the array with uniform numbers.
 void fill_uniform(int *array, int size) {
+    srand(time(NULL));
     int filler = rand() % 10;
     for (int i = 0; i < size; i++) {
         array[i] = filler;
@@ -26,6 +28,7 @@ void fill_uniform(int *array, int size) {
 
 //Fills the array with random numbers within 0 and size-1. Duplicates are allowed.
 void fill_with_duplicates(int *array, int size) {
+    srand(time(NULL));
     for (int i = 0; i < size; i++) {
         array[i] = rand() % size;
     }
@@ -33,6 +36,7 @@ void fill_with_duplicates(int *array, int size) {
 
 // Fills the array with unique numbers between 0 and size-1 in a shuffled order. Duplicates are not allowed.
 void fill_without_duplicates(int *array, int size) {
+    srand(time(NULL));
     // Dynamically allocate the nodupli array
     int *nodupli = (int *)calloc(size, sizeof(int));
 

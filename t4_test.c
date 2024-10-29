@@ -26,9 +26,9 @@ void remove_quotes(char *str) {
 // Function to print the top N game reviews
 void printTopNGames(GameReview *reviews, int size, int top_n) {
     printf("Top %d Games:\n", top_n);
-    printf("%-5s %-70s %-30s %-10s %-10s\n", "Rank", "Title", "Platform", "Score", "Year");
+    printf("%-5s %-90s %-30s %-10s %-10s\n", "Rank", "Title", "Platform", "Score", "Year");
     for (int i = 0; i < top_n && i < size; i++) {
-        printf("%-5d %-70s %-30s %-10d %-10d\n", i + 1, reviews[i].title, reviews[i].platform, reviews[i].score, reviews[i].year);
+        printf("%-5d %-90s %-30s %-10d %-10d\n", i + 1, reviews[i].title, reviews[i].platform, reviews[i].score, reviews[i].year);
     }
     printf("\n");
 }

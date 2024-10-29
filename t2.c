@@ -1,5 +1,6 @@
 #include <stdio.h> 
 #include <stdlib.h> 
+#include <time.h>
 #include "t2.h"
 
 int number_comparisons = 0;
@@ -96,6 +97,7 @@ int quickSortPartition(int array[], int low, int high) {
 int quickSortPartitionRandom(int array[], int low, int high) {
     // Random number between low and high
     int random_index = low + rand() % (high - low);
+    srand(time(NULL));
     // Swap the randomly generated index to pivot position
     swap(&array[random_index], &array[low]);
     return quickSortPartition(array, low, high);
@@ -126,13 +128,13 @@ int quickSortReviewsPartition(GameReview array[], int low, int high) {
         do {
             i++;
             number_comparisons++;
-        } while (array[i].score < pivot);
+        } while (array[i].score > pivot);
 
         // Find the rightmost element smaller than or equal to pivot
         do {
             j--;
             number_comparisons++;
-        } while (array[j].score > pivot);
+        } while (array[j].score < pivot);
 
         // If the two pointers met
         if (i >= j) {
@@ -148,6 +150,7 @@ int quickSortReviewsPartition(GameReview array[], int low, int high) {
 //   is selected as first pivot
 int quickSortReviewsPartitionRandom(GameReview array[], int low, int high) {
     // Random number between low and high
+    srand(time(NULL));
     int random_index = low + rand() % (high - low);
     // Swap the randomly generated index to pivot position
     swapReviews(&array[random_index], &array[low]);
@@ -158,7 +161,7 @@ int quickSortReviewsPartitionRandom(GameReview array[], int low, int high) {
 void quickSortReviewsHelper(GameReview array[], int low, int high) {
     if (low < high) {
         int pi = quickSortReviewsPartitionRandom(array, low, high);
-        quickSortReviewsHelper(array, low, pi - 1);
+        quickSortReviewsHelper(array, low, pi);
         quickSortReviewsHelper(array, pi + 1, high);
     }
 }
