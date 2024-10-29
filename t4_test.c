@@ -62,22 +62,41 @@ int main(int argc, char *argv[]) {
     fgets(line, sizeof(line), file);
 
     while (fgets(line, sizeof(line), file) && num_reviews < MAX_GAMES) {
-        // Tokenize and parse CSV fields
-        char *title = strtok(line, ",");
-        char *platform = strtok(NULL, ",");
-        char *score = strtok(NULL, ",");
-        char *year = strtok(NULL, "\n");
+        char *start = line;
+        char *end;
 
-        // Strip quotes from parsed fields
-        remove_quotes(title);
+        // Find the first comma (end of title)
+        int quote_count = 0;
+        for (end = start; *end != '\0'; ++end) {
+            if (*end == '"') {
+                quote_count++;
+            } else if (*end == ',' && quote_count % 2 == 0) { // Check if amount of quotes has been even
+                break;
+            }
+        }
 
-        strcpy(reviews[num_reviews].title, title);
-        strcpy(reviews[num_reviews].platform, platform);
+        if (*end == ',') {
+            strncpy(reviews[num_reviews].title, start, end - start);
+            reviews[num_reviews].title[end - start] = '\0';
+            remove_quotes(reviews[num_reviews].title);
 
-        reviews[num_reviews].score = atoi(score);
-        reviews[num_reviews].year = atoi(year);
+            char *platform = strtok(end + 1, ","); // Skip platform
 
-        num_reviews++;
+            strcpy(reviews[num_reviews].platform, platform);
+
+            char *score_str = strtok(NULL, ",");
+            char *year_str = strtok(NULL, ",");
+
+            if (score_str && year_str) { // Check for missing fields
+                remove_quotes(score_str);
+                reviews[num_reviews].score = atoi(score_str);
+
+                remove_quotes(year_str);
+                reviews[num_reviews].year = atoi(year_str);
+
+                num_reviews++;
+            }
+        }
     }
     fclose(file);
 

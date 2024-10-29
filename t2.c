@@ -62,42 +62,50 @@ void insertionSort(int array[], int size) {
 } /* Time Complexity: O(n^2) */
 
 // Quick Sort Partition function
+// - Using Hoare's parition scheme
 int quickSortPartition(int array[], int low, int high) {
+    int pivot = array[low];
+    int i = low - 1;
+    int j = high + 1;
+
+    while (1) {
+        // Find the leftmost element greater or equal to pivot
+        do {
+            i++;
+            number_comparisons++;
+        } while (array[i] < pivot);
+
+        // Find the rightmost element smaller than or equal to pivot
+        do {
+            j--;
+            number_comparisons++;
+        } while (array[j] > pivot);
+
+        // If the two pointers met
+        if (i >= j) {
+            return j;
+        }
+
+        swap(&array[i], &array[j]);
+    }
+}
+
+// Quick Sort Random Pivot Generator
+// - In Hoare partition the low element
+//   is selected as first pivot
+int quickSortPartitionRandom(int array[], int low, int high) {
     // Random number between low and high
     int random_index = low + rand() % (high - low);
-    int pivot = array[random_index];
-    int i = low;
-    int j = high;
-    while (i < j) {
-        while (i < high) {
-            number_comparisons++;
-            if (array[i] <= pivot) {
-                i++;
-            } else {
-                break;
-            }
-        }
-        while (j > low) {
-            number_comparisons++; 
-            if (array[j] >= pivot) {
-                j--;
-            } else {
-                break;
-            }
-        }
-        if (i < j) {
-            swap(&array[i], &array[j]);
-        }
-    }
-    swap(&array[low], &array[j]);
-    return j;
+    // Swap the randomly generated index to pivot position
+    swap(&array[random_index], &array[low]);
+    return quickSortPartition(array, low, high);
 }
 
 // Quick Sort Recursive Helper
 void quickSortHelper(int array[], int low, int high) {
     if (low < high) {
-        int pi = quickSortPartition(array, low, high);
-        quickSortHelper(array, low, pi - 1);
+        int pi = quickSortPartitionRandom(array, low, high);
+        quickSortHelper(array, low, pi);
         quickSortHelper(array, pi + 1, high);
     }
 }
@@ -109,33 +117,47 @@ void quickSort(int array[], int size) {
 
 // Partition Function for Quick Sort on GameReview Array
 int quickSortReviewsPartition(GameReview array[], int low, int high) {
+    int pivot = array[low].score;
+    int i = low - 1;
+    int j = high + 1;
+
+    while (1) {
+        // Find the leftmost element greater or equal to pivot
+        do {
+            i++;
+            number_comparisons++;
+        } while (array[i].score < pivot);
+
+        // Find the rightmost element smaller than or equal to pivot
+        do {
+            j--;
+            number_comparisons++;
+        } while (array[j].score > pivot);
+
+        // If the two pointers met
+        if (i >= j) {
+            return j;
+        }
+
+        swapReviews(&array[i], &array[j]);
+    }
+}
+
+// Quick Sort Random Pivot Generator
+// - In Hoare partition the low element
+//   is selected as first pivot
+int quickSortReviewsPartitionRandom(GameReview array[], int low, int high) {
     // Random number between low and high
     int random_index = low + rand() % (high - low);
-    int pivot = array[random_index].score; 
-    int i = low;
-    int j = high;
-
-    while (i < j) {
-        while (array[i].score >= pivot && i < high) {
-            i++;
-        }
-
-        while (array[j].score <= pivot && j > low) {
-            j--;
-        }
-
-        if (i < j) {
-            swapReviews(&array[i], &array[j]);
-        }
-    }
-    swapReviews(&array[low], &array[j]);
-    return j;
+    // Swap the randomly generated index to pivot position
+    swapReviews(&array[random_index], &array[low]);
+    return quickSortReviewsPartition(array, low, high);
 }
 
 // Recursive Quick Sort Helper for GameReview Array
 void quickSortReviewsHelper(GameReview array[], int low, int high) {
     if (low < high) {
-        int pi = quickSortReviewsPartition(array, low, high);
+        int pi = quickSortReviewsPartitionRandom(array, low, high);
         quickSortReviewsHelper(array, low, pi - 1);
         quickSortReviewsHelper(array, pi + 1, high);
     }
