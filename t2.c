@@ -1,4 +1,5 @@
 #include <stdio.h> 
+#include <stdlib.h> 
 #include "t2.h"
 
 int number_comparisons = 0;
@@ -12,6 +13,7 @@ void swap(int *a, int *b) {
     number_swaps++; // Increment the swap count each time this function is called
 }
 
+// Function to swap two review structs
 void swapReviews(GameReview *a, GameReview *b) {
     GameReview temp = *a;
     *a = *b;
@@ -55,7 +57,7 @@ void insertionSort(int array[], int size) {
 
         array[j + 1] = key;
     }
-}
+} /* Time Complexity: O(n^2) */
 
 // Quick Sort Partition function
 int quickSortPartition(int array[], int low, int high) {
@@ -66,15 +68,15 @@ int quickSortPartition(int array[], int low, int high) {
         number_comparisons++;
         while (array[i] <= p && i < high) {
             i++;
-            number_comparisons++;
+            number_comparisons++; // Increment comparison count
         }
 
-        number_comparisons++;
         while (array[j] >= p && j > low) {
             j--;
-            number_comparisons++;
+            number_comparisons++; // Increment comparison count
         }
 
+        number_comparisons++; // Increment comparison count
         if (i < j) {
             swap(&array[i], &array[j]);
         }
@@ -104,16 +106,12 @@ int quickSortReviewsPartition(GameReview array[], int low, int high) {
     int j = high;
 
     while (i < j) {
-        number_comparisons++;
         while (array[i].score >= pivot && i < high) {
             i++;
-            number_comparisons++;
         }
 
-        number_comparisons++;
         while (array[j].score <= pivot && j > low) {
             j--;
-            number_comparisons++;
         }
 
         if (i < j) {
@@ -134,7 +132,7 @@ void quickSortReviewsHelper(GameReview array[], int low, int high) {
 }
 
 // Adapter Function to Sort GameReview Array Based on Score
-void gameReviewAdapter(GameReview array[], int num_reviews) {
+void quickSortReviewsAdapter(GameReview array[], int num_reviews) {
     if (array == NULL || num_reviews <= 1) {
         return;
     }

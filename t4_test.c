@@ -26,11 +26,9 @@ void remove_quotes(char *str) {
 // Function to print the top N game reviews
 void printTopNGames(GameReview *reviews, int size, int top_n) {
     printf("Top %d Games:\n", top_n);
-    printf("-------------------------------\n");
-    printf("%-5s %-40s %-10s %-10s\n", "Rank", "Title", "Score", "Year");
-    printf("--------------------------------------------------------\n");
+    printf("%-5s %-70s %-30s %-10s %-10s\n", "Rank", "Title", "Platform", "Score", "Year");
     for (int i = 0; i < top_n && i < size; i++) {
-        printf("%-5d %-40s %-10d %-10d\n", i + 1, reviews[i].title, reviews[i].score, reviews[i].year);
+        printf("%-5d %-70s %-30s %-10d %-10d\n", i + 1, reviews[i].title, reviews[i].platform, reviews[i].score, reviews[i].year);
     }
     printf("\n");
 }
@@ -40,6 +38,9 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Usage: %s <game_reviews_file>\n", argv[0]);
         return 1;
     }
+    
+    // Clear screen
+    system("clear");
 
     FILE *file = fopen(argv[1], "r");
     if (!file) {
@@ -61,42 +62,26 @@ int main(int argc, char *argv[]) {
     fgets(line, sizeof(line), file);
 
     while (fgets(line, sizeof(line), file) && num_reviews < MAX_GAMES) {
-        char *start = line;
-        char *end;
+        // Tokenize and parse CSV fields
+        char *title = strtok(line, ",");
+        char *platform = strtok(NULL, ",");
+        char *score = strtok(NULL, ",");
+        char *year = strtok(NULL, "\n");
 
-        // Find the first comma (end of title)
-        int quote_count = 0;
-        for (end = start; *end != '\0'; ++end) {
-            if (*end == '"') {
-                quote_count++;
-            } else if (*end == ',' && quote_count % 2 == 0) {
-                break;
-            }
-        }
+        // Strip quotes from parsed fields
+        remove_quotes(title);
 
-        if (*end == ',') {
-            strncpy(reviews[num_reviews].title, start, end - start);
-            reviews[num_reviews].title[end - start] = '\0';
-            remove_quotes(reviews[num_reviews].title);
+        strcpy(reviews[num_reviews].title, title);
+        strcpy(reviews[num_reviews].platform, platform);
 
-            char *platform = strtok(end + 1, ","); // Skip platform
-            char *score_str = strtok(NULL, ",");
-            char *year_str = strtok(NULL, ",");
+        reviews[num_reviews].score = atoi(score);
+        reviews[num_reviews].year = atoi(year);
 
-            if (score_str && year_str) { // Check for missing fields
-                remove_quotes(score_str);
-                reviews[num_reviews].score = atoi(score_str);
-
-                remove_quotes(year_str);
-                reviews[num_reviews].year = atoi(year_str);
-
-                num_reviews++;
-            }
-        }
+        num_reviews++;
     }
     fclose(file);
 
-    gameReviewAdapter(reviews, num_reviews);
+    quickSortReviewsAdapter(reviews, num_reviews);
     printTopNGames(reviews, num_reviews, TOP_N);
 
     free(reviews);

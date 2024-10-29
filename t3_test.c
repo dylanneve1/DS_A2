@@ -13,7 +13,6 @@ int is_sorted(int* array, int size){
 	return 1;
 }
 
-
 void print_test_headers(){
     int n =10; // column width
     int n_first =25; //first column width
@@ -35,7 +34,6 @@ void test_and_print_for_given_array(void (*f) (int*,int), int size, int* array, 
 }
 
 void test_all_arrays_of_given_size(void (*f) (int*,int), int size){
-    
     print_test_headers();
 
     int* array =  malloc(size * sizeof(int));
@@ -60,8 +58,6 @@ void test_all_arrays_of_given_size(void (*f) (int*,int), int size){
     test_and_print_for_given_array(f,size, array, "Random w/o  duplicates");
     
     printf("\n\n");
-
-
 }
 
 void test_all_functions_for_given_size(int size){
