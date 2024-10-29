@@ -65,13 +65,13 @@ void insertionSort(int array[], int size) {
 
 // Quick Sort Partition function
 int quickSortPartition(int array[], int low, int high) {
-    int p = array[low];
+    int pivot = array[low];
     int i = low;
     int j = high;
     while (i < j) {
         while (i < high) {
             number_comparisons++;
-            if (array[i] <= p) {
+            if (array[i] <= pivot) {
                 i++;
             } else {
                 break;
@@ -79,7 +79,7 @@ int quickSortPartition(int array[], int low, int high) {
         }
         while (j > low) {
             number_comparisons++; 
-            if (array[j] >= p) {
+            if (array[j] >= pivot) {
                 j--;
             } else {
                 break;
