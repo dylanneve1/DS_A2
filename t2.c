@@ -48,15 +48,11 @@ void insertionSort(int array[], int size) {
             continue;
         }
 
-        while (j >= 0) {
-            number_comparisons++; // For each comparison in the while condition
-            if (array[j] > key) {
-                array[j + 1] = array[j];
-                number_swaps++;
-                j--;
-            } else {
-                break;
-            }
+        while (j >= 0 && array[j] > key) {
+            number_comparisons++; // Increment comparisons count
+            array[j + 1] = array[j];
+            number_swaps++;
+            j--;
         }
 
         array[j + 1] = key;
