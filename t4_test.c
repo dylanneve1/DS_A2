@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
             reviews[num_reviews].title[end - start] = '\0';
             remove_quotes(reviews[num_reviews].title);
 
-            char *platform = strtok(end + 1, ","); // Skip platform
+            char *platform = strtok(end + 1, ",");
 
             strcpy(reviews[num_reviews].platform, platform);
 

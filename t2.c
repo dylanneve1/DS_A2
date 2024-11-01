@@ -36,6 +36,7 @@ void selectionSort(int array[], int size) {
                 minimum = j;
             }
         }
+        // Swap minimum and current
         swap(&array[minimum], &array[i]);
     }
 } /* Time Complexity: O(n^2) */
